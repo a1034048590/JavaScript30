@@ -26,6 +26,12 @@
       misc styles, nothing to do with CSS variables
     */
 
+    :root {
+      --base: #ffc600;
+      --blur: 0px;
+      --spacing: 0px;
+    }
+
     body {
       text-align: center;
     }
@@ -38,16 +44,57 @@
       font-size: 50px;
     }
 
-    .controls {
+    .controls { 
       margin-bottom: 50px;
     }
 
     input {
       width:100px;
     }
+
+    img {
+      padding: var(--spacing);
+      filter: blur(var(--blur));
+      background: var(--base);
+    }
   </style>
 
+
   <script>
+  ;(function ()
+  {
+    let inputs = document.querySelectorAll('.controls input');
+
+    inputs.forEach(input => 
+    {
+      input.addEventListener('change', changeHandler);
+      input.addEventListener('mouseMove', changeHandler);
+    }
+    )
+
+    function changeHandler()
+    {
+    //  老版做法
+    //   switch(this.name)
+    //   {
+    //     case 'spacing':
+    //       document.querySelector('img').style.padding = `${this.value}px`;
+    //       break;
+    //     case 'blur':
+    //       document.querySelector('img').style.filter = `blur(${this.value}px)`;
+    //       break;
+    //     case 'base':
+    //       document.querySelector('img').style.background = `${this.value}`;
+    //       break;
+    //   }
+    // 
+    // document.documentElement.style['--' + this.name] = this.value + (this.name === 'base'? '': 'px');
+    const suffix = this.dataset.sizing || "";
+    console.log(document.documentElement.style);
+    document.documentElement.style.setProperty('--' + this.name, this.value + suffix);
+    // document.getElementById(`code-${this.name}`).innerText = this.value + suffix; // 页面参数实时显示
+    }
+  }())
   </script>
 
 </body>

@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>JS Drum Kit</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="./style.css">
 </head>
+
 <body>
 
 
@@ -47,19 +49,59 @@
     </div>
   </div>
 
-  <audio data-key="65" src="sounds/clap.wav"></audio>
-  <audio data-key="83" src="sounds/hihat.wav"></audio>
-  <audio data-key="68" src="sounds/kick.wav"></audio>
-  <audio data-key="70" src="sounds/openhat.wav"></audio>
-  <audio data-key="71" src="sounds/boom.wav"></audio>
-  <audio data-key="72" src="sounds/ride.wav"></audio>
-  <audio data-key="74" src="sounds/snare.wav"></audio>
-  <audio data-key="75" src="sounds/tom.wav"></audio>
-  <audio data-key="76" src="sounds/tink.wav"></audio>
+  <audio data-key="65" src="./sounds/clap.wav"></audio>
+  <audio data-key="83" src="./sounds/hihat.wav"></audio>
+  <audio data-key="68" src="./sounds/kick.wav"></audio>
+  <audio data-key="70" src="./sounds/openhat.wav"></audio>
+  <audio data-key="71" src="./sounds/boom.wav"></audio>
+  <audio data-key="72" src="./sounds/ride.wav"></audio>
+  <audio data-key="74" src="./sounds/snare.wav"></audio>
+  <audio data-key="75" src="./sounds/tom.wav"></audio>
+  <audio data-key="76" src="./sounds/tink.wav"></audio>
 
   <script>
+    function playHandler(e) {
+      // 三个问题
+      // 1. 放下没有删除样式
+      // 2. 有时无法播放
+      // 3. 按下 其他按键如 方向键时console 会报错。
 
+      // play music 
+
+      const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+      if (audio) {
+        // 设置重复播放（连续触发）
+        audio.currentTime = 0;
+
+        audio.play();
+      }
+
+      // dom style
+      // element.getElements 返回一个动态的Array
+      // const dom = element.getElementsByClassName()
+      // querySelector 返回一个静态NodeList 
+      const dom = document.querySelector(`div[data-key="${e.keyCode}"]`);
+      if (dom){
+        console.log('transition start!')
+        dom.classList.add('playing');
+      } 
+
+    }
+
+    function transitionHandler(e) {
+      console.log('transition end!')
+      if (e.propertyName === 'transform') {
+        e.target.classList.remove('playing');
+        
+      }
+    }
+
+    window.addEventListener('keydown', playHandler);
+    document.querySelectorAll('.key').forEach((key) => {
+      key.addEventListener('transitionend', transitionHandler);
+    })
   </script>
 
 </body>
+
 </html>
