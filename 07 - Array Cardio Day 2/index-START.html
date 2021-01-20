@@ -24,6 +24,35 @@
       { text: 'Nice Nice Nice!', id: 542328 }
     ];
 
+
+    // 针对 people 数组：
+
+    // 是否有人超过 19 岁？
+    const currentYear = (new Date()).getFullYear();
+    const isAllOver19 = people.every(person => person.year - currentYear >= 19);
+    console.log(isAllOver19);
+    // 是否所有人都是成年人？
+    const isAllOver18 = people.every(person => person.year - currentYear >= 18);
+    console.log(isAllOver18);
+    // 针对 comments 数组：
+
+    // 找到 ID 号为 823423 的评论
+    const findComment = comments.find(person => person.id === 823423);
+    console.log(findComment);
+
+    // 删除 ID 号为 823423 的评论
+    // 获取此 ID 对应元素在数组中所处的位置
+    // 利用位置，删除该子元素
+    // 或者拼接新的数组
+    const findCommentIndex = comments.findIndex(person => person.id === 823423);
+    // 不改变原数组
+    const newComments = [
+      ...comments.slice(0, findCommentIndex),
+      ...comments.slice(findCommentIndex + 1)
+    ];
+    // comments.splice(findCommentIndex, 1);
+    // console.log(comments);
+
     // Some and Every Checks
     // Array.prototype.some() // is at least one person 19?
     // Array.prototype.every() // is everyone 19?

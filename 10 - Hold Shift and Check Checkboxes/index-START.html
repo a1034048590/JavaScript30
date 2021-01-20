@@ -1,51 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Document</title>
 </head>
+
 <body>
   <style>
-
     html {
       font-family: sans-serif;
-      background:#ffc600;
+      background: #ffc600;
     }
 
     .inbox {
-      max-width:400px;
-      margin:50px auto;
-      background:white;
-      border-radius:5px;
-      box-shadow:10px 10px 0 rgba(0,0,0,0.1);
+      max-width: 400px;
+      margin: 50px auto;
+      background: white;
+      border-radius: 5px;
+      box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.1);
     }
 
     .item {
-      display:flex;
-      align-items:center;
+      display: flex;
+      align-items: center;
       border-bottom: 1px solid #F1F1F1;
     }
 
     .item:last-child {
-      border-bottom:0;
+      border-bottom: 0;
     }
 
 
-    input:checked + p {
-      background:#F9F9F9;
+    input:checked+p {
+      background: #F9F9F9;
       text-decoration: line-through;
     }
 
     input[type="checkbox"] {
-      margin:20px;
+      margin: 20px;
     }
 
     p {
-      margin:0;
-      padding:20px;
-      transition:background 0.2s;
-      flex:1;
-      font-family:'helvetica neue';
+      margin: 0;
+      padding: 20px;
+      transition: background 0.2s;
+      flex: 1;
+      font-family: 'helvetica neue';
       font-size: 20px;
       font-weight: 200;
       border-left: 1px solid #D1E2FF;
@@ -55,10 +56,8 @@
       text-align: center;
       font-size: 15px;
     }
-
-
   </style>
-   <!--
+  <!--
    The following is a common layout you would see in an email client.
 
    When a user clicks a checkbox, holds Shift, and then clicks another checkbox a few rows down, all the checkboxes inbetween those two checkboxes should be checked.
@@ -103,7 +102,64 @@
     </div>
   </div>
 
-<script>
-</script>
+  <script>
+    // ; (function () {
+    //   const checkboxes = Array.from(
+    //     document.querySelectorAll('.inbox input[type="checkbox"]')
+    //   );
+
+    //   let lastClick = -1; // type: int
+    //   let onOff = false;
+
+    //   function clickHandler(e) {
+    //     onOff = this.checked? true: false;
+    //     console.log(onOff);
+    //     if (e.shiftKey) {
+    //       let nowCheck = checkboxes.indexOf(this);
+    //       checkboxes.slice(
+    //         Math.min(nowCheck, lastClick),
+    //         Math.max(nowCheck, lastClick)
+    //       ).forEach(input => (input.checked = onOff));
+    //     }
+    //     lastClick = checkboxes.indexOf(this);
+    //   }
+
+    //   checkboxes.forEach(
+    //     input => {
+    //       input.addEventListener('click', clickHandler)
+    //     }
+    //   )
+    // }())
+    ; (function () {
+
+      // 综合了 js30-©未枝丫 以及 youtobe-Alex 的写法 使用slice 进行元组切片方式实现shift 选中及取消 
+      const inputs = Array.from(
+        document.querySelectorAll('.item input[type="checkbox"]')
+      ); //  document.querySelectorAll -> NodeList 没有slice 故转为Array
+      // 上次点击索引 初始值为 -1
+      let lastClickIndex = -1;
+
+      function clickHandler(e) {
+        // 获取当前input索引
+        const nowClickIndex = inputs.indexOf(this);
+        //  第二次shift 以及按下shift 执行
+        if (lastClickIndex > -1 && e.shiftKey) {
+          // 列表切片 比较lastClickIndex nowClickIndex 控制小的在前大的在后
+          // 切片后遍历 input.checked  = 当前checkbox 选中/取消
+          inputs.slice(
+            Math.min(lastClickIndex, nowClickIndex),
+            Math.max(lastClickIndex, nowClickIndex) + 1
+          ).forEach(
+            input => input.checked = this.checked
+          );
+        }
+        lastClickIndex = nowClickIndex;
+      }
+      inputs.forEach(input => {
+        input.addEventListener('click', clickHandler);
+      });
+    }())
+  </script>
 </body>
+
 </html>

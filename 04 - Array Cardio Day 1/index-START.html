@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Array Cardio 💪</title>
 </head>
+
 <body>
   <p><em>Psst: have a look at the JavaScript Console</em> 💁</p>
   <script>
@@ -27,35 +29,85 @@
       { first: 'Hanna', last: 'Hammarström', year: 1829, passed: 1909 }
     ];
 
+    console.table(inventors);
+    // console.log(inventors);
+
     const flavours = ['Chocolate Chip', 'Kulfi', 'Caramel Praline', 'Chocolate', 'Burnt Caramel', 'Pistachio', 'Rose', 'Sweet Coconut', 'Lemon Cookie', 'Toffeeness', 'Toasted Almond', 'Black Raspberry Crunch', 'Chocolate Brownies', 'Pistachio Almond', 'Strawberry', 'Lavender Honey', 'Lychee', 'Peach', 'Black Walnut', 'Birthday Cake', 'Mexican Chocolate', 'Mocha Almond Fudge', 'Raspberry'];
 
     const people = ['Beck, Glenn', 'Becker, Carl', 'Beckett, Samuel', 'Beddoes, Mick', 'Beecher, Henry', 'Beethoven, Ludwig', 'Begin, Menachem', 'Belloc, Hilaire', 'Bellow, Saul', 'Benchley, Robert', 'Benenson, Peter', 'Ben-Gurion, David', 'Benjamin, Walter', 'Benn, Tony', 'Bennington, Chester', 'Benson, Leana', 'Bent, Silas', 'Bentsen, Lloyd', 'Berger, Ric', 'Bergman, Ingmar', 'Berio, Luciano', 'Berle, Milton', 'Berlin, Irving', 'Berne, Eric', 'Bernhard, Sandra', 'Berra, Yogi', 'Berry, Halle', 'Berry, Wendell', 'Bethea, Erin', 'Bevan, Aneurin', 'Bevel, Ken', 'Biden, Joseph', 'Bierce, Ambrose', 'Biko, Steve', 'Billings, Josh', 'Biondo, Frank', 'Birrell, Augustine', 'Black Elk', 'Blair, Robert', 'Blair, Tony', 'Blake, William'];
 
     // Array.prototype.filter()
     // 1. Filter the list of inventors for those who were born in the 1500's
-
+    // 筛选 16 世纪出生的发明家
+    const result1 = inventors.filter(dic => {
+      return (parseInt(dic.year / 100) == 15)
+    });
+    console.table(result1);
     // Array.prototype.map()
     // 2. Give us an array of the inventors' first and last names
+    // 展示他们的姓和名
+    const result2 = inventors.map(dic => {
+      return {
+        first: dic.first,
+        last: dic.last
+      };
+    });
+    console.table(result2);
 
     // Array.prototype.sort()
     // 3. Sort the inventors by birthdate, oldest to youngest
+    // 默认情况下，Array.prototype.sort() 会将数组以字符串的形式进行升序排列（10 会排在 2 之前），但 sort 也可以接受一个函数作为参数。所以需要对数字大小排序时需要自己设定一个比较函数
+    const __ordered = inventors.sort((a, b) => (a.year - b.year)); //  1 前 0 不交换  -1 后
+    console.log('ordered')
+    console.table(__ordered);
 
     // Array.prototype.reduce()
-    // 4. How many years did all the inventors live?
+    console.log(inventors.reduce(
+      (total, dic) => total + dic.passed - dic.year, 0));
 
     // 5. Sort the inventors by years lived
+    console.table(
+      inventors.sort(
+        (a, b) =>
+        {
+          return -(a.passed - a.year - (b.passed - b.year)); 
+        }
+      )
+    )
+
 
     // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
     // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
-
+    // 筛选出一个网页里含有某个词语的标题
 
     // 7. sort Exercise
     // Sort the people alphabetically by last name
+    console.log(
+      inventors.sort(
+        dict => dict.last
+      )
+    );
 
     // 8. Reduce Exercise
     // Sum up the instances of each of these
-    const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
+    const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck'];
+    let items = {}
+    console.log('start 8!')
+    const result8 = data.reduce(
+        (items, d) => {
+          if(!items.hasOwnProperty(d))
+          {
+            items[d] = 0;
+          }
+          items[d] ++;
+          return items;
+        }, items
+    )
+    console.log(result8);
+
+
 
   </script>
 </body>
+
 </html>

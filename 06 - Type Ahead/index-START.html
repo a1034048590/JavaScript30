@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Type Ahead 👀</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
   <form class="search-form">
@@ -14,9 +16,55 @@
       <li>or a state</li>
     </ul>
   </form>
-<script>
-const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+  <script>
+    const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+    const endpointTangShi = 'https://gist.githubusercontent.com/soyaine/81399bb2b24ca1bb5313e1985533c640/raw/bdf7df2cbcf70706c4a5e51a7dfb8c933ed78878/TangPoetry.json'
 
-</script>
-  </body>
+    let cities = null;
+    fetch(endpoint)
+      .then(blob => blob.json())
+      .then(data => cities = data);
+
+    function findMatches(wordToMatch, cites){
+      return cities.filter(place => {
+        const regex = new RegExp(wordToMatch, 'gi');
+        return place.city.match(regex) || place.state.match(regex);
+      });
+    }
+
+
+    function inputHandler() {
+      const matchArray = findMatches(this.value, cities);
+      const html = matchArray.map(
+        place => {
+          const regexp = new RegExp(this.value, 'gi');
+          //设置高亮
+          const cityName = place.city.replace(regexp, `<span class='hl'>${this.value}</span>`);
+          const stateName = place.state.replace(regexp, `<span class='hl'>${this.value}</span>`);
+
+          return `
+          <li>
+            <span class='name'>${cityName}, ${stateName}</span>
+            <span class='population'> ${place.population}</span>
+          </li>
+          `
+        }
+      ).join('');
+      suggestions.innerHTML = html;
+      
+    }
+
+    const suggestions = document.querySelector('.suggestions');
+    document.querySelector('.search').addEventListener('keyup', inputHandler);
+
+// function requestHandler(){
+
+// }
+
+// let req =  new XMLHttpRequest();
+
+
+  </script>
+</body>
+
 </html>

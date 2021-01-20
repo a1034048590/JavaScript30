@@ -1,19 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>HTML5 Canvas</title>
 </head>
-<body>
-<canvas id="draw" width="800" height="800"></canvas>
-<script>
-</script>
 
-<style>
-  html, body {
-    margin:0;
-  }
-</style>
+<body>
+  <canvas id="draw" width="800" height="800"></canvas>
+  <script>
+    ; (function () {
+      const canvas = document.querySelector('#draw'); // 获取画版
+      let ctx = canvas.getContext('2d'); // 画板 内容实例 类型为 2d
+      let colorDeg = 0; // 颜色角度 0~360  红橙黄绿蓝电紫（湾湾叫法）
+      ctx.strokeStyle = `hsl(${colorDeg}, 100%, 50%)`; // 画笔颜色样式
+      const maxLineWidth = 50;
+      let direction = -1;
+      ctx.lineWidth = maxLineWidth; // 线宽
+      ctx.lineCap = 'round'; // 线帽  圆角
+      ctx.lineJoin = 'round'; // 线转角 圆角
+
+      let drawing = false; // 是否画的标识 
+      // 画笔坐标
+      let x = 0;
+      let y = 0;
+
+      canvas.addEventListener('mousedown', (e) => {
+        /**
+         * 监听鼠标按下事件
+         **/
+        drawing = true;
+        [x, y] = [e.offsetX, e.offsetY];
+        ctx.lineWidth = maxLineWidth;
+        console.log('mousedown!')
+      })
+
+      canvas.addEventListener('mousemove', (e) => {
+        /**
+         * 监听鼠标移动事件 鼠标移动事件
+        **/
+        if (!drawing) return;
+        console.log('mousemove!')
+
+        ctx.beginPath(); // 画画开始标识
+        ctx.strokeStyle = `hsl(${colorDeg}, 100%, 50%)`; // 画笔颜色样式
+        colorDeg = colorDeg < 360 ? colorDeg + 1 : 0; //颜色角度 0-360 循环 
+        
+
+
+        if(ctx.lineWidth <= 1 || ctx.lineWidth > maxLineWidth) {direction = -direction;}
+        ctx.lineWidth = ctx.lineWidth + direction;
+
+        console.log(ctx.lineWidth);
+
+        console.log(colorDeg);
+        ctx.moveTo(x, y); // 设置起点为到mousedown时 x, y的坐标
+        ctx.lineTo(e.offsetX, e.offsetY); // 画线至现在位置
+        ctx.stroke(); // 开始画线
+        [x, y] = [e.offsetX, e.offsetY]; // 下次起点为这次终点
+      })
+      canvas.addEventListener('mouseup', () => {
+        drawing = false;
+
+      })
+      canvas.addEventListener('mouseout', () => {
+
+      })
+      canvas.addEventListener('mouseleave', () => {
+        drawing = false;
+      })
+    }());
+  </script>
+
+
+  <style>
+    html,
+    body {
+      margin: 0;
+    }
+
+    canvas {
+      border: 1px solid;
+    }
+  </style>
 
 </body>
+
 </html>
