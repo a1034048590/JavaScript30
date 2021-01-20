@@ -1,12 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Key Detection</title>
   <script type="text/javascript" src="http://www.cornify.com/js/cornify.js"></script>
 </head>
+
 <body>
-<script>
-</script>
 </body>
+<script>
+  ; (function () {
+    const secretCode = 'yzhisbestman';
+
+    // 方案一  from yzh 使用 string  比对 
+    // 问题 string 是不可变的 每次比对完之后都会重新创建对象 可能会存在内存溢出问题
+    // let pressed = '';
+    // function secretCheck(e) {
+    //   console.log(pressed);
+    //   pressed = secretCode.indexOf(e.key) === -1 ? '' : pressed + e.key;
+    //   secretCode === pressed && (console.log('DING DING!') || cornify_add());
+    // }
+    // window.addEventListener('keyup', secretCheck);
+
+    // 方案二  from js30 使用 队列存储字符串 每次对比 切片新队列(splice) join 后比对
+    const pressedArray = []
+    function secretCheckJs30(e) {
+      pressedArray.push(e.key);
+      console.log(pressedArray.join(''));
+      pressedArray.splice(
+        -secretCode.length -1, pressedArray.length - secretCode.length
+      );
+      pressedArray.join('') === secretCode && (console.log('DING DING') || cornify_add())
+    }
+    window.addEventListener('keyup', secretCheckJs30);
+  }());
+</script>
+
 </html>
