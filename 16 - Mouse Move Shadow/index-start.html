@@ -1,40 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Mouse Shadow</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Mouse Shadow</title>
+  </head>
+  <body>
+    <div class="hero">
+      <h1 contenteditable>🔥WOAH!</h1>
+    </div>
 
-  <div class="hero">
-    <h1 contenteditable>🔥WOAH!</h1>
-  </div>
+    <style>
+      html {
+        color: black;
+        font-family: sans-serif;
+      }
 
-  <style>
-  html {
-    color:black;
-    font-family: sans-serif;
-  }
+      body {
+        margin: 0;
+      }
 
-  body {
-    margin: 0;
-  }
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: black;
+      }
 
-  .hero {
-    min-height: 100vh;
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    color:black;
-  }
+      h1 {
+        text-shadow: 10px 10px 0 rgba(0, 0, 0, 1);
+        font-size: 100px;
+      }
+    </style>
 
-  h1 {
-    text-shadow: 10px 10px 0 rgba(0,0,0,1);
-    font-size: 100px;
-  }
-  </style>
+    <script>
+      (function () {
+        const hero = document.querySelector(".hero");
+        const h1 = hero.querySelector("h1");
+        const length = 300;
 
-<script>
-</script>
-</body>
+        function shadowMove(e) {
+          let { offsetX, offsetY } = e;
+          if (e.target !== this) {
+            offsetX += e.target.offsetLeft;
+            offsetY += e.target.offsetTop;
+          }
+
+          const factorX = Math.floor(
+            ((offsetX / this.offsetWidth) * 2 - 1) * length
+          ); // *2 -1 使百分比范围变为 -1~1
+          const factorY = Math.floor(
+            ((offsetY / this.offsetWidth) * 2 - 1) * length
+          );
+
+          h1.style.textShadow = `
+          ${-factorX}px ${-factorY}px 5px rgba(255,0,0,0.8),
+          ${-factorX*0.5}px ${factorY*0.5}px 5px rgba(255,255,0,0.8),
+          ${factorX*0.8}px ${-factorY*0.8}px 5px rgba(255,0,255,0.8),
+          ${factorX*1.2}px ${factorY*1.2}px 5px rgba(0,255,255,0.8)
+          `;
+        }
+
+        hero.addEventListener("mousemove", shadowMove);
+      })();
+    </script>
+  </body>
 </html>
+0
