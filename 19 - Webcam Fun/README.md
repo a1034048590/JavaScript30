@@ -1,13 +1,13 @@
 # 19 Webcam Fun 中文指南
 
 > 本篇作者：©[大史不说话](https://github.com/dashnowords)——Chinasoft Frontend Web Developer
-
+****
 > 简介：[JavaScript30](https://javascript30.com) 是 [Wes Bos](https://github.com/wesbos) 推出的一个 30 天挑战。项目免费提供了 30 个视频教程、30 个挑战的起始文档和 30 个挑战解决方案源代码。目的是帮助人们用纯 JavaScript 来写东西，不借助框架和库，也不使用编译器和引用。现在你看到的是这系列指南的第 19 篇。完整指南在 [GitHub](https://github.com/soyaine/JavaScript30)，喜欢请 Star 哦♪(^∇^*)
 
 > 创建时间：2017-08-31    
 最后更新：2017-09-02
 
-## 挑战任务
+****## 挑战任务
 在`index-start.html`中提供了一个名为**Take Photo**的按钮，该按钮的点击事件会触发`takePhoto()`函数，并提供了一组标有RGBmin/max标记的`range`类型`input`元素，一个`canvas`元素，一个`video`元素，以及带有`strip`类名的空`div`元素。   
 本次的编程任务：   
 1.通过编写javascript代码，请求调用用户的网络摄像头;   

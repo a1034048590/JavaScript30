@@ -230,7 +230,7 @@ function toggleBackground(item){
     var itemPos;
     if(item === 1 || item === 2 || item ===3){
       //计算位置
-    itemPos = document.querySelector('.dropdown'+item).getBoundingClientRect();
+    itemPos = document.querySelector('.dropdown'+item). ();
       bg.style.left = `${itemPos.left}px`;
       bg.style.top = `${itemPos.top-60}px`;
       bg.classList.add('open');

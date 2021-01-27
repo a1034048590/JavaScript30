@@ -40,6 +40,7 @@
   //获得浏览器支持的阅读语言并填充至下拉列表
 function getSupportVoice() {
   voices = synth.getVoices();
+  console.log(voices);
   for(i = 0; i < voices.length ; i++) {
     var option = document.createElement('option');
     option.textContent = voices[i].name + ' (' + voices[i].lang + ')';
