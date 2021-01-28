@@ -1,20 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Video Speed Scrubber</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-  <div class="wrapper">
-    <video class="flex" width="765" height="430" src="http://clips.vorwaerts-gmbh.de/VfE_html5.mp4" loop controls></video>
-    <div class="speed">
-      <div class="speed-bar">1×</div>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Video Speed Scrubber</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <video class="flex" width="765" height="430" src="http://clips.vorwaerts-gmbh.de/VfE_html5.mp4" loop controls></video>
+      <div class="speed">
+        <div class="speed-bar">1×</div>
+      </div>
     </div>
-  </div>
 
-<script>
-</script>
-</body>
+    <script>
+      {
+        // const video = document.querySelector('.flex');
+        // const speedSlicer = document.querySelector('.speed');
+        // const speedBar = speedSlicer.querySelector('.speed-bar');
+
+        // function changeSpeed(e) {
+        //   const height = e.offsetY;
+        //   const percentage = e.offsetY / speedSlicer.offsetHeight;
+        //   const min = 0.5;
+        //   const max = 5;
+
+        //   const playbackRate = percentage * (max - min) + min;
+        //   speedBar.style.height = Math.round(percentage * 100) + '%';
+        //   speedBar.textContent = playbackRate.toFixed(2) + 'x';
+        //   video.playbackRate = playbackRate;
+        // }
+
+        // speedSlicer.addEventListener('click', changeSpeed);
+
+        const video = document.querySelector('.flex');
+        const speed = document.querySelector('.speed');
+        const speedBar = speed.querySelector('.speed-bar');
+
+        function changeSpeed(e) {
+          const height = e.offsetY;
+          const percentage = e.offsetY / this.offsetHeight;
+          const min = 0.5;
+          const max = 5;
+          const speedRate = (percentage * (max - min) + min).toFixed(1);
+
+          speedBar.textContent = speedRate + 'x';
+          speedBar.style.height = height + 'px';
+          video.playbackRate = speedRate;
+        }
+
+        speed.addEventListener('click', changeSpeed);
+      }
+    </script>
+  </body>
 </html>

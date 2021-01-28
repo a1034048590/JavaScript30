@@ -1,29 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Countdown Timer</title>
-  <link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div class="timer">
-    <div class="timer__controls">
-      <button data-time="20" class="timer__button">20 Secs</button>
-      <button data-time="300" class="timer__button">Work 5</button>
-      <button data-time="900" class="timer__button">Quick 15</button>
-      <button data-time="1200" class="timer__button">Snack 20</button>
-      <button data-time="3600" class="timer__button">Lunch Break</button>
-      <form name="customForm" id="custom">
-        <input type="text" name="minutes" placeholder="Enter Minutes">
-      </form>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Countdown Timer</title>
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="timer">
+      <div class="timer__controls">
+        <button data-time="20" class="timer__button">20 Secs</button>
+        <button data-time="300" class="timer__button">Work 5</button>
+        <button data-time="900" class="timer__button">Quick 15</button>
+        <button data-time="1200" class="timer__button">Snack 20</button>
+        <button data-time="3600" class="timer__button">Lunch Break</button>
+        <form name="customForm" id="custom">
+          <input type="text" name="minutes" placeholder="Enter Minutes" />
+        </form>
+      </div>
+      <div class="display">
+        <h1 class="display__time-left"></h1>
+        <p class="display__end-time"></p>
+      </div>
     </div>
-    <div class="display">
-      <h1 class="display__time-left"></h1>
-      <p class="display__end-time"></p>
-    </div>
-  </div>
 
-  <script src="scripts-START.js"></script>
-</body>
+    <!-- <script src="scripts-START.js"></script> -->
+    <script>
+      {
+        const leftTimeH1 = document.querySelector('.display__time-left');
+        const endTimeP = document.querySelector('.display__end-time');
+        const controlButtons = document.querySelectorAll('.timer__button');
+        const controlForm = document.querySelector('#custom');
+        let leftTime = 0;
+
+        function updateTime(addSeconds) {
+          leftTime += addSeconds;
+          const now = Date.now();
+          const end = now + leftTime *1000;
+          const endTime = new Date(end);
+          console.log(now);
+
+          leftTimeH1.textContent = leftTime;
+          endTimeP.textContent = endTime.toLocaleTimeString();
+          // let hour = endTime.getHours();
+          // let day = '下午';
+          // if (hour > 12) {
+          //   hour -= 12;
+          // } else {
+          //   day = '上午';
+          // }
+          // const minutes = endTime.getMinutes();
+          // const seconds = endTime.getSeconds();
+          // endTimeP.textContent = `${day}${hour}:${minutes >= 10 ? minutes : '0' + minutes}:${seconds >= 10 ? seconds : '0' + seconds}`;
+        }
+
+        function updateTimeByButton(e) {
+          updateTime(parseInt(this.getAttribute('data-time')));
+        }
+
+        function updateTimeByForm(e) {
+          // 阻止表单提交页面
+          e.preventDefault();
+          const minutes = parseInt(this['minutes'].value);
+          if (minutes) {
+            updateTime(minutes * 60);
+          } else {
+            alert(`非法输出:${this['minutes'].value}, 请输入数字`);
+          }
+        }
+
+        controlButtons.forEach((buttion) => {
+          buttion.addEventListener('click', updateTimeByButton);
+        });
+        controlForm.addEventListener('submit', updateTimeByForm);
+
+        // 定时器
+        setInterval(() => {
+          leftTime = leftTime > 0 ? leftTime - 1 : leftTime;
+          leftTimeH1.textContent = leftTime;
+        }, 1000);
+      }
+    </script>
+  </body>
 </html>
